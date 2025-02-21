@@ -85,7 +85,13 @@ export default function CartContextProvider({ children }) {
 
   async function onLinePayment(shippingAddress) {
     try {
-      const { data } = await axios.post(`https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=http://localhost:5173`, { shippingAddress }, { headers: { token } });
+      const redirectUrl = `${window.location.origin}`;
+const { data } = await axios.post(
+  `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=${redirectUrl}`,
+  { shippingAddress },
+  { headers: { token } }
+);
+
       if (data.status === "success") {
         await getCart();
       }
