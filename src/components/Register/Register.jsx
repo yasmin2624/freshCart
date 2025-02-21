@@ -1,5 +1,5 @@
 import React from 'react'
-import  useState  from 'react'
+import  {useState}  from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios'
@@ -20,7 +20,6 @@ export default function Register() {
     rePassword:''
   }
 
- //password valid : gr3at@3wdsG
   const validationSchema = Yup.object().shape({
     name:Yup.string().min(3,"min length is 3").max(15,"max length is 15").required("Required"),
     email:Yup.string().email('Invalid email').required("Required"),
