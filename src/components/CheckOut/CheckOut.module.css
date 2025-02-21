@@ -1,0 +1,8 @@
+input[type="checkbox"] {
+    accent-color: #0aad0a;
+  }
+  
+  input[type="checkbox"]:focus {
+    outline: 2px solid #0aad0a;
+  }
+  

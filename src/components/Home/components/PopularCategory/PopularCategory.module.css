@@ -1,0 +1,9 @@
+.categoryImage {
+    height: 300px;
+    width: 100%;
+    object-position: center;
+    object-fit: cover;
+    border-radius: 10px;
+}
+    
+ 
