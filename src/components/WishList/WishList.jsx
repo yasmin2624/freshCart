@@ -18,12 +18,12 @@ export default function WishList() {
     try {
       const data = await addToCart(id);
       if (data && data.status === "success") {
-        toast.success("Product added to cart successfully!");
+        toast.success("Product added to cart successfully!", { autoClose: 3000 });
       } else {
-        toast.error("Failed to add product to cart.");
+        toast.error("Failed to add product to cart.", { autoClose: 3000 });
       }
     } catch (error) {
-      toast.error("Something went wrong, please try again.");
+      toast.error("Something went wrong, please try again.", { autoClose: 3000 });
     }
   }
   if (isLoading) return <Loader />;
