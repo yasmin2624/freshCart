@@ -37,7 +37,7 @@ export default function CheckOut() {
       } else {
         let x = await cashOnDelievry(values);
         toast.success(" Your order has been placed successfully!✅");
-        setTimeout(() => navigate("/"), 2000);
+        setTimeout(() => navigate("/allorders"), 2000);
       }
     } catch (error) {
       console.error(error);
