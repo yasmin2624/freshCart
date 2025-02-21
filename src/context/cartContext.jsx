@@ -97,18 +97,24 @@ export default function CartContextProvider({ children }) {
 
   async function getUserOrders() {
     try {
-        const { data } = await axios.get(
-            "https://ecommerce.routemisr.com/api/v1/orders",
-            {
-                headers: { Authorization: `Bearer ${token}` } 
-            }
-        );
-        return data;
+      if (!token) {
+        console.error("Token is missing!");
+        return;
+      }
+  
+      const { data } = await axios.get("https://ecommerce.routemisr.com/api/v1/orders", {
+        headers: {
+          token: token,
+        },
+      });
+  
+      console.log("Orders fetched successfully:", data);
+      return data;
     } catch (error) {
-        console.error("Error fetching orders:", error);
+      console.error("Error fetching orders:", error.response ? error.response.data : error.message);
     }
-}
-
+  }
+  
   
 async function clearCart() {
   try {
@@ -133,11 +139,13 @@ async function clearCart() {
 
 
 
-  useEffect(() => {
-    if (token) {
-      getCart();
-    }
-  }, [token]);
+useEffect(() => {
+  console.log("Token in CartContext:", token);
+  if (token) {
+    getCart();
+  }
+}, [token]);
+
 
 
   return (
