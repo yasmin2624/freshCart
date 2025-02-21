@@ -54,7 +54,7 @@ export default function WishList() {
                   <button
                     onClick={async () => {
                       setLoadingAdd((prev) => ({ ...prev, [product._id]: true }));
-                      await addToCart(product._id);
+                      await addProduct(product._id);
                       setLoadingAdd((prev) => ({ ...prev, [product._id]: false }));
                     }}
                     className="text-main rounded-md p-2 border"
