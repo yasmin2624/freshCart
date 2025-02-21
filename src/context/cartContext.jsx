@@ -85,9 +85,11 @@ export default function CartContextProvider({ children }) {
 
   async function onLinePayment(shippingAddress) {
     try {
-      const redirectUrl = `${window.location.origin}`;
-const { data } = await axios.post(
-  `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=${redirectUrl}`,
+      const redirectUrl = "https://your-project-name.vercel.app";
+
+     const { data } = await axios.post(
+         `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=${redirectUrl}`,
+
   { shippingAddress },
   { headers: { token } }
 );
