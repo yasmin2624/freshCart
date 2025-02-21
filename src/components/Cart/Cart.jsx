@@ -4,7 +4,7 @@ import { cartContext } from "../../context/cartContext";
 import { BeatLoader } from "react-spinners";
 import { Link } from "react-router-dom";
 import Loader from "../shared/Loader/Loader";
-import FullLoader from "../shared/FullLOader/FullLOader";
+import FullLoader from "../shared/FullLoader/FullLoader";
 
 export default function Cart() {
   const { cartDetails, RemoveProduct, updateCount, clearCart, isLoading } =
