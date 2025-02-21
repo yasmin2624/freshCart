@@ -51,7 +51,8 @@ export default function WishlistProvider({ children }) {
     try {
       const { data } = await axios.delete(`${URL}/${id}`, { headers: { token } });
       if (data.status === "success") {
-        setWishlist((product) => product.filter((item) => item._id !== id)); 
+        setWishlist((prevWishlist) => prevWishlist.filter((item) => item._id !== id)); 
+
         toast.success("Product removed from wishlist!");
       }
     } catch (error) {

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import  useState from "react";
+import { useState } from "react";
 import { WishlistContext } from "../../context/wishListContext";
 import { toast } from "react-toastify";
 import { cartContext } from "../../context/cartContext";
