@@ -29,14 +29,16 @@ export default function NavBar() {
 
           {/* Mobile Toggler & Dark Mode Button */}
           <div className="flex items-center gap-2 md:hidden">
-            <Link to="/cart" className="relative">
-              <i className="fa-solid fa-cart-shopping fa-lg text-gray-900 dark:text-white"></i>
-              {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1">
-                  {cartCount}
-                </span>
-              )}
-            </Link>
+            {token && (
+              <Link to="/cart" className="relative">
+                <i className="fa-solid fa-cart-shopping fa-lg text-gray-900 dark:text-white"></i>
+                {cartCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1">
+                    {cartCount}
+                  </span>
+                )}
+              </Link>
+            )}
 
             <button
               onClick={toggleTheme}
@@ -72,32 +74,45 @@ export default function NavBar() {
           </div>
         </div>
 
-        {/* Navigation Links */}
+        {/* Navigation Links and Logout for Small Screens */}
         <div
-          className={`${isMenuOpen ? "block" : "hidden"} md:block absolute md:relative top-full left-0 w-full md:w-auto z-50 bg-white dark:bg-gray-900 shadow-md md:shadow-none`}
+          className={`${
+            isMenuOpen ? "block" : "hidden"
+          } md:block absolute md:relative top-full left-0 w-full md:w-auto z-50 bg-white dark:bg-gray-900 shadow-md md:shadow-none`}
         >
-          {token && (
-            <ul className="font-medium flex flex-col md:flex-row p-4 md:p-0 border border-gray-100 md:border-0 rounded-lg bg-gray-50 md:bg-transparent md:space-x-8 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-              {[
-                { to: "/", label: "Home" },
-                { to: "/cart", label: "Cart" },
-                { to: "/wishlist", label: "Wish List" },
-                { to: "/products", label: "Products" },
-                { to: "/categories", label: "Categories" },
-                { to: "/brands", label: "Brands" }
-              ].map((link) => (
-                <li key={link.to}>
-                  <NavLink
-                    to={link.to}
-                    className="text-gray-900 dark:text-white hover:text-green-500"
-                  >
-                    {link.label}
+          <ul className="font-medium flex flex-col md:flex-row p-4 md:p-0 border border-gray-100 md:border-0 rounded-lg bg-gray-50 md:bg-transparent md:space-x-8 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+            {token ? (
+              <>
+                <li>
+                  <NavLink to="/" className="text-gray-900 dark:text-white hover:text-gray-950">
+                    Home
                   </NavLink>
                 </li>
-              ))}
-
-              {/* Log Out for Small Screens Only */}
-              {token && (
+                <li>
+                  <NavLink to="/cart" className="text-gray-900 dark:text-white hover:text-gray-950">
+                    Cart
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/wishlist" className="text-gray-900 dark:text-white hover:text-gray-950">
+                    Wish List
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/products" className="text-gray-900 dark:text-white hover:text-gray-950">
+                    Products
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/categories" className="text-gray-900 dark:text-white hover:text-gray-950">
+                    Categories
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/brands" className="text-gray-900 dark:text-white hover:text-gray-950">
+                    Brands
+                  </NavLink>
+                </li>
                 <li className="md:hidden">
                   <button
                     onClick={LogOut}
@@ -106,21 +121,36 @@ export default function NavBar() {
                     Log Out
                   </button>
                 </li>
-              )}
-            </ul>
-          )}
+              </>
+            ) : (
+              <>
+                <li>
+                  <NavLink to="/login" className="text-gray-900 dark:text-white hover:text-gray-950">
+                    Login
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/register" className="text-gray-900 dark:text-white hover:text-gray-950">
+                    Register
+                  </NavLink>
+                </li>
+              </>
+            )}
+          </ul>
         </div>
 
         {/* Right Section: Cart, Dark Mode, Sign Out for Large Screens */}
         <div className="hidden md:flex items-center gap-4">
-          <Link to="/cart" className="relative text-gray-900 dark:text-white">
-            <i className="fa-solid fa-cart-shopping fa-lg"></i>
-            {cartCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1">
-                {cartCount}
-              </span>
-            )}
-          </Link>
+          {token && (
+            <Link to="/cart" className="relative text-gray-900 dark:text-white">
+              <i className="fa-solid fa-cart-shopping fa-lg"></i>
+              {cartCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1">
+                  {cartCount}
+                </span>
+              )}
+            </Link>
+          )}
 
           <button
             onClick={toggleTheme}
@@ -133,15 +163,19 @@ export default function NavBar() {
           {token ? (
             <button
               onClick={LogOut}
-              className="text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300"
+              className="hidden md:block text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300"
             >
               Log Out
             </button>
           ) : (
-            <div className="flex gap-3">
-              <NavLink to="/register" className="hover:text-green-500">Register</NavLink>
-              <NavLink to="/login" className="hover:text-green-500">Login</NavLink>
-            </div>
+            <>
+              <NavLink to="/login" className="text-gray-900 dark:text-white hover:text-gray-950">
+                Login
+              </NavLink>
+              <NavLink to="/register" className="text-gray-900 dark:text-white hover:text-gray-950">
+                Register
+              </NavLink>
+            </>
           )}
         </div>
       </div>
