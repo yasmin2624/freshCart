@@ -84,32 +84,32 @@ export default function NavBar() {
             {token ? (
               <>
                 <li>
-                  <NavLink to="/" className="text-gray-900 dark:text-white hover:text-gray-950">
+                  <NavLink to="/" className="text-gray-900 dark:text-white hover:text-color">
                     Home
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/cart" className="text-gray-900 dark:text-white hover:text-gray-950">
+                  <NavLink to="/cart" className="text-gray-900 dark:text-white hover:text-color">
                     Cart
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/wishlist" className="text-gray-900 dark:text-white hover:text-gray-950">
+                  <NavLink to="/wishlist" className="text-gray-900 dark:text-white hover:text-color">
                     Wish List
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/products" className="text-gray-900 dark:text-white hover:text-gray-950">
+                  <NavLink to="/products" className="text-gray-900 dark:text-white hover:text-color">
                     Products
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/categories" className="text-gray-900 dark:text-white hover:text-gray-950">
+                  <NavLink to="/categories" className="text-gray-900 dark:text-white hover:text-color">
                     Categories
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/brands" className="text-gray-900 dark:text-white hover:text-gray-950">
+                  <NavLink to="/brands" className="text-gray-900 dark:text-white hover:text-color">
                     Brands
                   </NavLink>
                 </li>
@@ -123,18 +123,20 @@ export default function NavBar() {
                 </li>
               </>
             ) : (
-              <>
-                <li>
-                  <NavLink to="/login" className="text-gray-900 dark:text-white hover:text-gray-950">
-                    Login
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="/register" className="text-gray-900 dark:text-white hover:text-gray-950">
-                    Register
-                  </NavLink>
-                </li>
-              </>
+              isMenuOpen && (
+                <>
+                  <li>
+                    <NavLink to="/login" className="text-gray-900 dark:text-white hover:text-color">
+                      Login
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/register" className="text-gray-900 dark:text-white hover:text-color">
+                      Register
+                    </NavLink>
+                  </li>
+                </>
+              )
             )}
           </ul>
         </div>
@@ -160,22 +162,24 @@ export default function NavBar() {
             {isDark ? <i className="fa-solid fa-sun"></i> : <i className="fa-solid fa-moon"></i>}
           </button>
 
-          {token ? (
+          {!token && !isMenuOpen && (
+            <>
+              <NavLink to="/login" className="text-gray-900 dark:text-white hover:text-color">
+                Login
+              </NavLink>
+              <NavLink to="/register" className="text-gray-900 dark:text-white hover:text-color">
+                Register
+              </NavLink>
+            </>
+          )}
+
+          {token && (
             <button
               onClick={LogOut}
               className="hidden md:block text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300"
             >
               Log Out
             </button>
-          ) : (
-            <>
-              <NavLink to="/login" className="text-gray-900 dark:text-white hover:text-gray-950">
-                Login
-              </NavLink>
-              <NavLink to="/register" className="text-gray-900 dark:text-white hover:text-gray-950">
-                Register
-              </NavLink>
-            </>
           )}
         </div>
       </div>
