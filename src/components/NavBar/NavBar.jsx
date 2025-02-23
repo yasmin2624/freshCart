@@ -40,7 +40,7 @@ export default function NavBar() {
 
             <button
               onClick={toggleTheme}
-              className="p-1 text-white"
+              className="p-1 text-color"
               title="Toggle Dark Mode"
             >
               {isDark ? <i className="fa-solid fa-sun"></i> : <i className="fa-solid fa-moon"></i>}
