@@ -2,75 +2,85 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @import url('https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@300;500&display=swap');
 
 
-:root
-{
-    --main-color:#0aad0a;
-    --light-color:#f0f3f2;
-    --shadow: rgba(145,158,171,.2) 0px 2px 4px -1px,rgba(145,158,171,.14) 0px 4px 5px 0px,rgba(145,158,171,.12) 0px 1px 10px 0px;
-    --font-family:'Encode Sans Expanded', sans-serif;
-    --rating-color:#ffc908;
+:root {
+    --main-color: #0aad0a;
+    --light-color: #f0f3f2;
+    --shadow: rgba(145,158,171,.2) 0px 2px 4px -1px, rgba(145,158,171,.14) 0px 4px 5px 0px, rgba(145,158,171,.12) 0px 1px 10px 0px;
+    --font-family: 'Encode Sans Expanded', sans-serif;
+    --rating-color: #ffc908;
+    --main-bg-color: #fff;
+    --main-text-color: #000;
 }
 
-body{
-    font-family: var(--font-family) !important;
+.dark {
+    --main-bg-color: #1a202c;
+    --main-text-color: #fff;
+    --light-color: #2d3748;
 }
-.rating-color
-{
+
+
+body {
+    font-family: var(--font-family) !important;
+    background-color: var(--main-bg-color);
+    color: var(--main-text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.rating-color {
     color: var(--rating-color);
 }
-.cursor-pointer
-{
+
+.cursor-pointer {
     cursor: pointer;
 }
-a , a:hover{
-    color: black;
+
+a, a:hover {
+    color: var(--main-text-color);
     text-decoration: none;
 }
 
 .product {
     transition: all 0.3s ease-in-out;
-}  
-.product:hover {
-    box-shadow: 0 0 15px var(--main-color); 
-    transform: scale(1.02); 
 }
 
-.product .btn 
-{
-    transition: transform 1s , opacity 1s;
+.product:hover {
+    box-shadow: 0 0 15px var(--main-color);
+    transform: scale(1.02);
+}
+
+.product .btn {
+    transition: transform 1s, opacity 1s;
     transform: translateY(100%);
     opacity: 0;
 }
-.product:hover .btn 
-{
+
+.product:hover .btn {
     opacity: 1;
     transform: translateY(0%);
-
 }
-.font-sm
-{
+
+.font-sm {
     font-size: 14px;
 }
-.text-main
-{
+
+.text-main {
     color: var(--main-color);
 }
-.bg-main
-{
+
+.bg-main {
     background-color: var(--main-color) !important;
 }
-.bg-main-light 
-{
+
+.bg-main-light {
     background-color: var(--light-color) !important;
 }
 
-
-.active{
-    @apply bg-main p-1 text-white rounded
+/* Tailwind Utility Classes */
+.active {
+    @apply bg-main p-1 text-white rounded;
 }
 
 .main-layout {

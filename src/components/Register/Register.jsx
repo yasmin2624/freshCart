@@ -1,180 +1,171 @@
-import React from 'react'
-import  {useState}  from 'react'
+import React, { useContext } from 'react'
+import { useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios'
 import { ClipLoader } from "react-spinners";
 import { useNavigate } from 'react-router-dom'
+import { tokenContext } from '../../context/tokenContext'
 
 export default function Register() {
-  let [isCallingAPI,setisCallingAPI] = useState (false);
-  let [apiError,setapiError] = useState (null);
-  
-  let navigate = useNavigate()
+  let [isCallingAPI, setisCallingAPI] = useState(false);
+  let [apiError, setapiError] = useState(null);
 
-  const initialValues=  {
-    name:'mina',
-    email:'',
-    phone:'',
-    password:'',
-    rePassword:''
-  }
+  const context = useContext(tokenContext);
+  const setToken = context?.setToken;
+
+  let navigate = useNavigate();
+
+  const initialValues = {
+    name: '',
+    email: '',
+    phone: '',
+    password: '',
+    rePassword: ''
+  };
 
   const validationSchema = Yup.object().shape({
-    name:Yup.string().min(3,"min length is 3").max(15,"max length is 15").required("Required"),
-    email:Yup.string().email('Invalid email').required("Required"),
-    phone:Yup.string().matches(new RegExp('^01[0125][0-9]{8}$'),'Invalid phone').required("Required"),
-    password:Yup.string().matches(new RegExp('^[A-z][a-z0-9]{5,}$'),'Invalid password , must be Minimum 6 characters').required("Required"),
-    rePassword:Yup.string().oneOf([Yup.ref('password')],'rePassword should match password').required("Required")
-  })
-
+    name: Yup.string().min(3, "Min length is 3").max(15, "Max length is 15").required("Required"),
+    email: Yup.string().email('Invalid email').required("Required"),
+    phone: Yup.string().matches(/^01[0125][0-9]{8}$/, 'Invalid phone').required("Required"),
+    password: Yup.string().matches(/^[A-Za-z][A-Za-z0-9]{5,}$/, 'Invalid password, must be at least 6 characters').required("Required"),
+    rePassword: Yup.string().oneOf([Yup.ref('password')], 'Passwords must match').required("Required")
+  });
 
   const registerForm = useFormik({
     initialValues,
     validationSchema,
-    onSubmit : callRegister     
-  })
+    onSubmit: callRegister
+  });
 
-   async function callRegister(values){
+  async function callRegister(values) {
     try {
-      setisCallingAPI(true)
-      setapiError(null)
-      let {data} = await axios.post(`https://ecommerce.routemisr.com/api/v1/auth/signup`,values)
-      console.log(data);
-      setisCallingAPI(false)
-      navigate("/login")
+      setisCallingAPI(true);
+      setapiError(null);
+      let { data } = await axios.post(`https://ecommerce.routemisr.com/api/v1/auth/signup`, values);
+      localStorage.setItem("userToken", data.token);
+      if (setToken) {
+        setToken(data.token);
+      }
+      setisCallingAPI(false);
+      navigate("/login");
     } catch (error) {
-      setapiError(error.response.data.message)
-      setisCallingAPI(false)
+      setapiError(error.response?.data?.message);
+      setisCallingAPI(false);
     }
-  
-  
-    }
-
+  }
 
   return (
-  
-    <form onSubmit={registerForm.handleSubmit} className="w-full sm:w-3/4 md:w-2/3 lg:w-1/2 my-9 mx-auto h-auto p-6 sm:p-8 md:p-10 bg-white shadow-lg rounded-lg">
-    <h1 className="text-2xl sm:text-3xl mb-4 text-color font-bold text-center">Register Now</h1>
-  
-    {apiError && (
-      <div className="p-2 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-        {apiError}
-      </div>
-    )}
-  
-    <div className="relative z-0 w-full mb-5 group">
-      <input 
-        type="text" 
-        value={registerForm.values.name} 
-        onChange={registerForm.handleChange} 
-        name="name" 
-        onBlur={registerForm.handleBlur}
-        id="floating_name" 
-        className="block py-2.5 px-3 w-full text-sm text-gray-900 bg-transparent border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-main focus:border-main" 
-        placeholder="Name"
-        required 
-      />
-      {registerForm.errors.name && registerForm.touched.name && (
-        <div className="p-2 mt-1 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-          {registerForm.errors.name}
-        </div>
-      )}
-    </div>
-  
-    <div className="relative z-0 w-full mb-5 group">
-      <input 
-        type="email" 
-        value={registerForm.values.email} 
-        onChange={registerForm.handleChange} 
-        name="email" 
-        onBlur={registerForm.handleBlur}
-        id="floating_email" 
-        className="block py-2.5 px-3 w-full text-sm text-gray-900 bg-transparent border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-main focus:border-main" 
-        placeholder="Email"
-        required 
-      />
-      {registerForm.errors.email && registerForm.touched.email && (
-        <div className="p-2 mt-1 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-          {registerForm.errors.email}
-        </div>
-      )}
-    </div>
-  
-    <div className="relative z-0 w-full mb-5 group">
-      <input 
-        type="password" 
-        value={registerForm.values.password} 
-        onChange={registerForm.handleChange} 
-        name="password" 
-        onBlur={registerForm.handleBlur}
-        id="floating_password" 
-        className="block py-2.5 px-3 w-full text-sm text-gray-900 bg-transparent border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-main focus:border-main" 
-        placeholder="Password"
-        required 
-      />
-      {registerForm.errors.password && registerForm.touched.password && (
-        <div className="p-2 mt-1 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-          {registerForm.errors.password}
-        </div>
-      )}
-    </div>
-  
-    <div className="relative z-0 w-full mb-5 group">
-      <input 
-        type="password" 
-        value={registerForm.values.rePassword} 
-        onChange={registerForm.handleChange} 
-        name="rePassword" 
-        onBlur={registerForm.handleBlur}
-        id="floating_repassword" 
-        className="block py-2.5 px-3 w-full text-sm text-gray-900 bg-transparent border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-main focus:border-main" 
-        placeholder="Confirm Password"
-        required 
-      />
-      {registerForm.errors.rePassword && registerForm.touched.rePassword && (
-        <div className="p-2 mt-1 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-          {registerForm.errors.rePassword}
-        </div>
-      )}
-    </div>
-  
-    <div className="relative z-0 w-full mb-5 group">
-      <input 
-        type="tel" 
-        value={registerForm.values.phone} 
-        onChange={registerForm.handleChange} 
-        name="phone" 
-        onBlur={registerForm.handleBlur}
-        id="floating_phone" 
-        className="block py-2.5 px-3 w-full text-sm text-gray-900 bg-transparent border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-main focus:border-main" 
-        placeholder="Phone"
-        required 
-      />
-      {registerForm.errors.phone && registerForm.touched.phone && (
-        <div className="p-2 mt-1 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-          {registerForm.errors.phone}
-        </div>
-      )}
-    </div>
-  
-    {isCallingAPI ? (
-      <div className="flex justify-start w-auto mt-4 sm:mt-0">
-        <div className="bg-main p-2 pb-0 rounded-md">
-          <ClipLoader color="#ffffff" size={20} />
-        </div>
-      </div>
-    ) : (
-      <div className="flex justify-start w-auto mt-4 sm:mt-0">
-      <button type="submit" className="text-white bg-main hover:bg-main hover:opacity-80 focus:ring-4 focus:outline-none focus:ring-green-100 font-medium rounded-lg text-sm sm:text-base px-5 py-2.5 text-center mt-4 sm:mt-0 w-full sm:w-auto">
-        Register
-      </button>
-      </div>
-    )}
-  </form>
-  
-  
+    <div className="flex justify-center items-center py-12 bg-gray-100 dark:bg-gray-900">
+      <form onSubmit={registerForm.handleSubmit} className="w-full max-w-lg bg-white dark:bg-gray-800 p-8 shadow-xl rounded-lg">
+        <h1 className="text-3xl font-bold text-center text-main mb-6">Register Now</h1>
 
-  
-  )
+        {apiError && (
+          <div className="mb-4 p-3 text-sm text-red-800 bg-red-100 rounded-lg" role="alert">
+            {apiError}
+          </div>
+        )}
+
+        <div className="mb-4">
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
+          <input
+            type="text"
+            value={registerForm.values.name}
+            onChange={registerForm.handleChange}
+            name="name"
+            onBlur={registerForm.handleBlur}
+            id="name"
+            className="mt-1 block w-full px-4 py-2 text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-main focus:border-main"
+            placeholder="Enter your name"
+            required
+          />
+          {registerForm.errors.name && registerForm.touched.name && (
+            <p className="mt-1 text-sm text-red-600">{registerForm.errors.name}</p>
+          )}
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+          <input
+            type="email"
+            value={registerForm.values.email}
+            onChange={registerForm.handleChange}
+            name="email"
+            onBlur={registerForm.handleBlur}
+            id="email"
+            className="mt-1 block w-full px-4 py-2 text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-main focus:border-main"
+            placeholder="Enter your email"
+            required
+          />
+          {registerForm.errors.email && registerForm.touched.email && (
+            <p className="mt-1 text-sm text-red-600">{registerForm.errors.email}</p>
+          )}
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Phone</label>
+          <input
+            type="tel"
+            value={registerForm.values.phone}
+            onChange={registerForm.handleChange}
+            name="phone"
+            onBlur={registerForm.handleBlur}
+            id="phone"
+            className="mt-1 block w-full px-4 py-2 text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-main focus:border-main"
+            placeholder="Enter your phone"
+            required
+          />
+          {registerForm.errors.phone && registerForm.touched.phone && (
+            <p className="mt-1 text-sm text-red-600">{registerForm.errors.phone}</p>
+          )}
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+          <input
+            type="password"
+            value={registerForm.values.password}
+            onChange={registerForm.handleChange}
+            name="password"
+            onBlur={registerForm.handleBlur}
+            id="password"
+            className="mt-1 block w-full px-4 py-2 text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-main focus:border-main"
+            placeholder="Enter your password"
+            required
+          />
+          {registerForm.errors.password && registerForm.touched.password && (
+            <p className="mt-1 text-sm text-red-600">{registerForm.errors.password}</p>
+          )}
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="rePassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Confirm Password</label>
+          <input
+            type="password"
+            value={registerForm.values.rePassword}
+            onChange={registerForm.handleChange}
+            name="rePassword"
+            onBlur={registerForm.handleBlur}
+            id="rePassword"
+            className="mt-1 block w-full px-4 py-2 text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-main focus:border-main"
+            placeholder="Confirm your password"
+            required
+          />
+          {registerForm.errors.rePassword && registerForm.touched.rePassword && (
+            <p className="mt-1 text-sm text-red-600">{registerForm.errors.rePassword}</p>
+          )}
+        </div>
+
+        <div className="flex justify-center">
+          {isCallingAPI ? (
+            <div className="bg-main p-2 rounded-md">
+              <ClipLoader color='#ffffff' size={20} />
+            </div>
+          ) : (
+            <button type="submit" className="w-full bg-main text-white py-2 rounded-lg hover:opacity-90 transition">Register</button>
+          )}
+        </div>
+      </form>
+    </div>
+  );
 }

@@ -1,6 +1,4 @@
-import React from 'react'
-import { useState , useEffect } from 'react'
-import styles from './Brands.module.css'
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Loader from '../shared/Loader/Loader';
 
@@ -25,36 +23,34 @@ export default function Brands() {
   }, []);
 
   return (
-    <div className="flex justify-center items-center flex-col mb-20 px-3 sm:px-5 md:px-10 lg:px-20">
+    <div className="flex justify-center items-center flex-col mb-20 px-3 sm:px-5 md:px-10 lg:px-20 dark:bg-gray-900 dark:text-white">
       <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-main my-5">All Brands</h1>
-      
       {loading ? (
         <Loader />
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
           {brands.map((brand) => (
-            <div 
-              key={brand._id} 
-              className="border product p-6 rounded flex flex-col items-center w-72 sm:w-80 md:w-64 lg:w-60 mx-auto cursor-pointer"
-              onClick={() => setSelectedBrand(brand)} // ✅ يفتح المودال عند الضغط
+            <div
+              key={brand._id}
+              className="border product p-6 rounded flex flex-col items-center w-72 sm:w-80 md:w-64 lg:w-60 mx-auto cursor-pointer bg-white dark:bg-gray-800 dark:border-gray-700"
+              onClick={() => setSelectedBrand(brand)}
             >
               <img src={brand.image} alt={brand.name} className="w-32 sm:w-36 md:w-40 lg:w-48 h-auto" />
-              <h2 className="text-center text-lg sm:text-xl mt-2">{brand.name}</h2>
+              <h2 className="text-center text-lg sm:text-xl mt-2 dark:text-white">{brand.name}</h2>
             </div>
           ))}
         </div>
       )}
 
-      {/* ✅ المودال */}
       {selectedBrand && (
         <div className="fixed inset-0 flex items-center justify-center z-[100] bg-black bg-opacity-50 p-3 sm:p-5">
-          <div className="bg-white rounded-lg shadow-lg p-4 sm:p-5 max-w-sm sm:max-w-md md:max-w-lg w-full">
-            <div className="flex justify-between items-center border-b pb-2">
-              <h3 className="text-lg sm:text-xl font-semibold text-main">{selectedBrand.name}</h3>
-              <button onClick={() => setSelectedBrand(null)} className="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 sm:p-5 max-w-sm sm:max-w-md md:max-w-lg w-full">
+            <div className="flex justify-between items-center border-b pb-2 dark:border-gray-600">
+              <h3 className="text-lg sm:text-xl font-semibold text-main dark:text-white">{selectedBrand.name}</h3>
+              <button onClick={() => setSelectedBrand(null)} className="text-gray-400 hover:text-gray-600 dark:hover:text-white text-xl">&times;</button>
             </div>
             <div className="flex flex-col sm:flex-row items-center justify-between p-3 sm:p-4">
-              <p className="text-gray-500 text-sm sm:text-base">{selectedBrand.name.toLowerCase()}</p>
+              <p className="text-gray-500 dark:text-gray-300 text-sm sm:text-base">{selectedBrand.name.toLowerCase()}</p>
               <img src={selectedBrand.image} alt={selectedBrand.name} className="w-24 sm:w-32 md:w-40 h-auto mt-3 sm:mt-0" />
             </div>
             <div className="text-right">

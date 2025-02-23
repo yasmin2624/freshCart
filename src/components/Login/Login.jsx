@@ -11,9 +11,6 @@ export default function Login() {
   let [isCallingAPI, setisCallingAPI] = useState(false);
   let [apiError, setapiError] = useState(null);
 
-
-  //   let {setToken} = useContext(tokenContext)
-
   const context = useContext(tokenContext);
   const setToken = context?.setToken;
 
@@ -34,8 +31,7 @@ export default function Login() {
   const LoginForm = useFormik({
     initialValues,
     validationSchema,
-    onSubmit:callLogin
-
+    onSubmit: callLogin
   });
 
   async function callLogin(values) {
@@ -43,7 +39,6 @@ export default function Login() {
       setisCallingAPI(true);
       setapiError(null);
       let { data } = await axios.post(`https://ecommerce.routemisr.com/api/v1/auth/signin`, values);
-      console.log(data);
       localStorage.setItem("userToken", data.token);
       setisCallingAPI(false);
       if (setToken) {
@@ -57,72 +52,66 @@ export default function Login() {
   }
 
   return (
-    <form onSubmit={LoginForm.handleSubmit} className="w-full sm:w-3/4 md:w-2/3 lg:w-1/2 my-9 mx-auto h-auto p-6 sm:p-8 md:p-10 bg-white shadow-lg rounded-lg">
-    <h1 className="text-2xl sm:text-3xl mb-4 text-color font-bold text-center">Login Now</h1>
-  
-    {apiError && (
-      <div className="p-2 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-        {apiError}
-      </div>
-    )}
-  
-    <div className="relative z-0 w-full mb-5 group">
-      <input
-        type="email"
-        value={LoginForm.values.email}
-        onChange={LoginForm.handleChange}
-        name="email"
-        onBlur={LoginForm.handleBlur}
-        id="floating_email"
-        className="block py-2.5 px-3 w-full text-sm text-gray-900 bg-transparent border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-main focus:border-main"
-        placeholder="Email"
-        required
-      />
-      {LoginForm.errors.email && LoginForm.touched.email && (
-        <div className="p-2 mt-1 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-          {LoginForm.errors.email}
-        </div>
-      )}
-    </div>
-  
-    <div className="relative z-0 w-full mb-5 group">
-      <input
-        type="password"
-        value={LoginForm.values.password}
-        onChange={LoginForm.handleChange}
-        name="password"
-        onBlur={LoginForm.handleBlur}
-        id="floating_password"
-        className="block py-2.5 px-3 w-full text-sm text-gray-900 bg-transparent border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-main focus:border-main"
-        placeholder="Password"
-        required
-      />
-      {LoginForm.errors.password && LoginForm.touched.password && (
-        <div className="p-2 mt-1 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-          {LoginForm.errors.password}
-        </div>
-      )}
-    </div>
-  
-    <div className="flex flex-col sm:flex-row justify-between items-center">
-      <span className="hover:text-main underline text-sm sm:text-base">
-        <Link to="/forgetpassword" style={{ color: "#6D7882" }}>
-          Forget password?
-        </Link>
-      </span>
-      {isCallingAPI ? (
-        <div className="flex justify-end w-auto mt-4 sm:mt-0">
-          <div className="bg-main p-2 pb-0 rounded-md">
-            <ClipLoader color='#ffffff' size={20} />
+    <div className="flex justify-center items-center min-h-96 py-16 bg-gray-100 dark:bg-gray-900">
+      <form onSubmit={LoginForm.handleSubmit} className="w-full max-w-lg bg-white dark:bg-gray-800 p-8 shadow-xl rounded-lg">
+        <h1 className="text-3xl font-bold text-center text-main mb-6">Login Now</h1>
+
+        {apiError && (
+          <div className="mb-4 p-3 text-sm text-red-800 bg-red-100 rounded-lg" role="alert">
+            {apiError}
           </div>
+        )}
+
+        <div className="mb-4">
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+          <input
+            type="email"
+            value={LoginForm.values.email}
+            onChange={LoginForm.handleChange}
+            name="email"
+            onBlur={LoginForm.handleBlur}
+            id="email"
+            className="mt-1 block w-full px-4 py-2 text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-main focus:border-main"
+            placeholder="Enter your email"
+            required
+          />
+          {LoginForm.errors.email && LoginForm.touched.email && (
+            <p className="mt-1 text-sm text-red-600">{LoginForm.errors.email}</p>
+          )}
         </div>
-      ) : (
-        <button type="submit" className="text-white bg-main hover:bg-main hover:opacity-80 focus:ring-4 focus:outline-none focus:ring-green-100 font-medium rounded-lg text-sm sm:text-base px-5 py-2.5 text-center mt-4 sm:mt-0 w-full sm:w-auto">
-          Login
-        </button>
-      )}
+
+        <div className="mb-4">
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+          <input
+            type="password"
+            value={LoginForm.values.password}
+            onChange={LoginForm.handleChange}
+            name="password"
+            onBlur={LoginForm.handleBlur}
+            id="password"
+            className="mt-1 block w-full px-4 py-2 text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-main focus:border-main"
+            placeholder="Enter your password"
+            required
+          />
+          {LoginForm.errors.password && LoginForm.touched.password && (
+            <p className="mt-1 text-sm text-red-600">{LoginForm.errors.password}</p>
+          )}
+        </div>
+
+        <div className="flex justify-between items-center mb-6">
+          <Link to="/forgetpassword" className="text-sm text-main hover:underline">Forgot password?</Link>
+        </div>
+
+        <div className="flex justify-center">
+          {isCallingAPI ? (
+            <div className="bg-main p-2 rounded-md">
+              <ClipLoader color='#ffffff' size={20} />
+            </div>
+          ) : (
+            <button type="submit" className="w-full bg-main text-white py-2 rounded-lg hover:opacity-90 transition">Login</button>
+          )}
+        </div>
+      </form>
     </div>
-  </form>
-  
   );
 }

@@ -8,11 +8,11 @@ import "flowbite/dist/flowbite.min.js";
 import TokenContextProvider from "./context/tokenContext.jsx";
 import CounterContextProvider from "./context/counterContext.jsx";
 import CartContextProvider from "./context/cartContext.jsx";
+import WishlistProvider from "./context/wishListContext.jsx";
+import { ThemeProvider } from "./context/themeContext.jsx"; 
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import WishlistProvider from "./context/wishListContext.jsx";
-
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -20,7 +20,9 @@ createRoot(document.getElementById("root")).render(
       <CartContextProvider>
         <WishlistProvider>
           <CounterContextProvider>
-            <App />
+            <ThemeProvider> 
+              <App />
+            </ThemeProvider>
           </CounterContextProvider>
         </WishlistProvider>
       </CartContextProvider>

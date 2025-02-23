@@ -85,15 +85,7 @@ export default function CartContextProvider({ children }) {
 
   async function onLinePayment(shippingAddress) {
     try {
-      const redirectUrl = "https://fresh-cart-ten-pearl.vercel.app/";
-
-     const { data } = await axios.post(
-         `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=${redirectUrl}`,
-
-  { shippingAddress },
-  { headers: { token } }
-);
-
+      const { data } = await axios.post(`https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=http://localhost:5173`, { shippingAddress }, { headers: { token } });
       if (data.status === "success") {
         await getCart();
       }
