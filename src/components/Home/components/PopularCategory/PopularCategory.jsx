@@ -40,7 +40,7 @@ export default function PopularCategory() {
 
   return (
     <div className='py-20 mx-12'>
-<h2 className='mb-3 text-lg sm:text-xl md:text-2xl font-semibold text-center text-color'>Shop Popular Categories</h2>
+<h2 className='mb-3 text-lg sm:text-xl md:text-2xl font-semibold text-center text-color dark:text-white'>Shop Popular Categories</h2>
 <Slider {...settings} >
     {categories.map(category => <div key={category._id} className='px-1'>
       <img src={category.image} className={styles.categoryImage} /> 

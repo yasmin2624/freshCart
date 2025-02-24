@@ -69,7 +69,7 @@ export default function ProductItem(props) {
   {redHeart ? (
     <i className="fa-solid fa-heart text-2xl text-red-700"></i>
   ) : (
-    <i className="fa-solid fa-heart text-2xl text-gray-800"></i>
+    <i className="fa-solid fa-heart text-2xl text-gray-800 dark:text-gray-400"></i>
   )}
 </span>
 

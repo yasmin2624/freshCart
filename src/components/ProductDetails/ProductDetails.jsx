@@ -61,62 +61,68 @@ export default function ProductDetails() {
   return (
    <>
      
-  {details &&
- <div className="container max-w-screen-lg py-16 flex flex-col md:flex-row items-center gap-10">
- <div className="w-full md:w-4/12 px-4 md:px-10">
-   <Slider {...settings}>
-     {details?.images.map(src =>  
-       <img src={src} alt="" className="w-full h-[180px] sm:h-[220px] md:h-[280px] lg:h-[350px] object-contain rounded" /> 
-     )}
-   </Slider>
- </div>
+     {details && (
+  <div className="container max-w-screen-lg py-16 flex flex-col md:flex-row items-center gap-10">
+    <div className="w-full md:w-4/12 px-4 md:px-10">
+      <Slider {...settings}>
+        {details?.images.map((src, index) => (
+          <img
+            key={index}
+            src={src}
+            alt=""
+            className="w-full h-[180px] sm:h-[220px] md:h-[280px] lg:h-[350px] object-contain rounded bg-gray-100 dark:bg-gray-800"
+          />
+        ))}
+      </Slider>
+    </div>
 
- <div className="w-full md:w-8/12 px-4">
-   <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium mb-6 text-color">
-     {details?.title}
-   </h1>
-   <p className="text-[#212529c3]">{details?.description}</p>
-   <span className="text-[#212529c3] block mb-4">{details?.category?.name}</span>
+    <div className="w-full md:w-8/12 px-4">
+      <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium mb-6 text-color dark:text-white">
+        {details?.title}
+      </h1>
+      <p className="text-[#212529c3] dark:text-gray-300">{details?.description}</p>
+      <span className="text-[#212529c3] dark:text-gray-400 block mb-4">
+        {details?.category?.name}
+      </span>
 
-   <div className="flex justify-between items-center mb-8">
-     <p className="text-lg font-medium">{details?.price} EGP</p>
-     <p className="flex items-center">
-       <i className="fa fa-star rating-color mr-1"></i> {details?.ratingsAverage}
-     </p>
-   </div>
+      <div className="flex justify-between items-center mb-8">
+        <p className="text-lg font-medium text-gray-800 dark:text-white">
+          {details?.price} EGP
+        </p>
+        <p className="flex items-center text-gray-800 dark:text-yellow-400">
+          <i className="fa fa-star rating-color mr-1"></i>
+          {details?.ratingsAverage}
+        </p>
+      </div>
 
-   <button onClick={async ()=>{
-     setLoading(true);
-     await addProduct(details.id)
-     setLoading(false);
-   }} 
-     className="bg-main w-full text-center text-white rounded-md p-2">
-              {loading ? (
-           <span>Loading...</span>
-         ) : (
-           <span>
-             <i className="fa-solid fa-plus p-2" style={{ color: "#ffffff" }} />
-             Add to cart
-           </span>
-         )}
-   </button>
- </div>
-</div>
+      <button
+        onClick={async () => {
+          setLoading(true);
+          await addProduct(details.id);
+          setLoading(false);
+        }}
+        className="bg-main w-full text-center text-white dark:bg-green-600 rounded-md p-2"
+      >
+        {loading ? (
+          <span>Loading...</span>
+        ) : (
+          <span>
+            <i className="fa-solid fa-plus p-2" style={{ color: "#ffffff" }} />
+            Add to cart
+          </span>
+        )}
+      </button>
+    </div>
+  </div>
+)}
 
+{!details && <Loader />}
 
-
- }
-
-{!details && <Loader/>}
-
-<h2 className="container px-4 sm:px-8 md:px-12 text-2xl sm:text-3xl md:text-4xl font-bold mb-6 text-color">
+<h2 className="container px-4 sm:px-8 md:px-12 text-2xl sm:text-3xl md:text-4xl font-bold mb-6 text-color dark:text-white">
   Related Products
 </h2>
 
-
-
 <RelatedProducts categoryId={categoryId} />
-
 
    </>
   )
