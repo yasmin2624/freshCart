@@ -85,7 +85,11 @@ export default function CartContextProvider({ children }) {
 
   async function onLinePayment(shippingAddress) {
     try {
-      const { data } = await axios.post(`https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=https://fresh-cart-ten-pearl.vercel.app/`, { shippingAddress }, { headers: { token } });
+      const { data } = await axios.post(
+        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=${window.location.origin}`,
+        { shippingAddress },
+        { headers: { token } }
+      );
       if (data.status === "success") {
         await getCart();
       }
@@ -93,8 +97,8 @@ export default function CartContextProvider({ children }) {
     } catch (error) {
       console.error("Error placing order:", error);
     }
-  } 
-
+  }
+  
   async function getUserOrders() {
     try {
       if (!token) {
