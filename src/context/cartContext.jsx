@@ -84,28 +84,20 @@ export default function CartContextProvider({ children }) {
   }
 
   async function onLinePayment(shippingAddress) {
-    console.log("onLinePayment function called!");
-  
     try {
       const { data } = await axios.post(
         `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=${window.location.origin}`,
         { shippingAddress },
         { headers: { token } }
       );
-  
-      console.log("Response Data:", data);
-  
       if (data.status === "success") {
         await getCart();
-        window.location.href = `${window.location.origin}/allorders`;
       }
-  
       return data;
     } catch (error) {
       console.error("Error placing order:", error);
     }
   }
-  
   
   async function getUserOrders() {
     try {
