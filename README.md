@@ -3,8 +3,6 @@
 This project is my **graduation project from Route Academy** 🎓.  
 It’s a full front-end **E-Commerce application** built with **React.js** and modern tools, focusing on clean architecture, responsive design, and seamless user experience.  
 
-🔗 **Live Demo:** [https://fresh-cart-ten-pearl.vercel.app/login](https://fresh-cart-ten-pearl.vercel.app/login)
-
 ---
 
 ## 🚀 Tech Stack & Tools  
