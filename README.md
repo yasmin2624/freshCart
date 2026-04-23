@@ -48,10 +48,5 @@ It’s a full front-end **E-Commerce application** built with **React.js** and m
 
 ---
 
-## 🤝 Acknowledgment  
-
-This project was developed as the **final milestone of my React.js learning journey at Route Academy** 💙  
-
----
 
 ✨ *FreshCart combines modern front-end practices with real-world e-commerce features, making it a solid foundation for scalable web applications.*  
